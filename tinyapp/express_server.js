@@ -1,19 +1,33 @@
-var express = require('express');
-var app = express();
-var PORT = 8080;
-var util = require('./lib/Utilities');
+const express = require('express');
+const app = express();
+const PORT = 8080;
+const util = require('./lib/Utilities');
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.set('view engine', 'ejs');
 
-var urlDatabase = {
+const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+
+//username cookies
+
+app.post('/login', (req, res) => {
+  let userInput = req.body.username;
+  res.cookie('username', userInput);
+
+
+  res.redirect('/urls');
+})
 
 //Start of the URLS
 
@@ -27,13 +41,18 @@ app.get('/urls', (req, res) => {
 app.get('/urls/new', (req, res) => {
   res.render('url_new')
 })
+
+
 //Page when Submit is clicked on /urls/new
 app.post('/urls', (req, res) => {
-  var randomKey = util.generateRandomString();
-  var longURL = req.body.longURL;
-  console.log(longURL);
+  let templateInfo = {
+    urlDatabase,
+    username: req.cookies["username"],
+  }
+  const randomKey = util.generateRandomString();
+  const longURL = req.body.longURL;
   urlDatabase[randomKey] = longURL;
-  res.render('url_index', {urlDatabase,});
+  res.render('url_index', templateInfo);
 })
 
 //redirecting the short link to the actual page
@@ -45,23 +64,16 @@ app.get("/u/:shortURL", (req, res) => {
 
 //DELETE buttons
 app.post('/urls/:id/delete', (req, res) => {
-  var objectKey = req.params.id
+  const objectKey = req.params.id
   delete urlDatabase[objectKey];  
   res.redirect('/urls')
 })
 
 //Update with POST
-
 app.post('/urls/:id', (req, res) => {
   let shortURL = req.params.id;
-
-  console.log(shortURL);
   let newURL = req.body.longURL;
-  console.log(newURL);
   urlDatabase[shortURL] = newURL;
-
-  //connect to the input
-
   res.redirect('/urls');
 })
 
