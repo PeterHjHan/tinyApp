@@ -24,22 +24,30 @@ const urlDatabase = {
 app.post('/login', (req, res) => {
   let userInput = req.body.username;
   res.cookie('username', userInput);
-
-
   res.redirect('/urls');
 })
+
+app.post('/logout', (req, res) => {
+  res.clearCookie('username');
+  res.redirect('/urls');
+});
 
 //Start of the URLS
 
 //Page with all URLS for short and long
 app.get('/urls', (req, res) => {
-  let template = {urlDatabase,}
+  let template = {urlDatabase,
+  username: req.cookies["username"],
+}
   res.render('url_index', template);
 })
 
 //Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
-  res.render('url_new')
+  let template = {urlDatabase,
+  username: req.cookies["username"],
+  }
+  res.render('url_new', template)
 })
 
 
@@ -84,6 +92,7 @@ app.post('/urls/:id', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   let template = {shortURL: req.params.id,
   longURL : urlDatabase[req.params.id],
+  username: req.cookies["username"],
 };
   res.render('url_show', template);
 });
