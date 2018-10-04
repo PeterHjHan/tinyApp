@@ -11,7 +11,7 @@
 
   <ul>
     <% for(let urls in urlDatabase) { %>
-      <li> <%= urls %> - <%= urlDatabase[urls] %> 
+      <li> <%= urls %> - <a href = "<%= urlDatabase[urls] %>"><%= urlDatabase[urls] %></a> 
         <form method="POST" action="/urls/<%=urls %>/delete">
           <button>Delete</button>
         </form>
