@@ -32,6 +32,12 @@ app.post('/logout', (req, res) => {
   res.redirect('/urls');
 });
 
+//user_register
+
+app.post('/register', (req, res) => {
+  
+})
+
 //Start of the URLS
 
 //Page with all URLS for short and long
