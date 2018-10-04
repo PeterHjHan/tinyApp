@@ -35,7 +35,7 @@ app.post('/logout', (req, res) => {
 //user_register
 
 app.post('/register', (req, res) => {
-  
+  //TODO:
 })
 
 //Start of the URLS
