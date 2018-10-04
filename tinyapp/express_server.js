@@ -20,15 +20,15 @@ const urlDatabase = {
 
 
 
-const users = { 
+const users = {
   "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
+    id: "userRandomID",
+    email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
+  "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
     password: "dishwasher-funk"
   }
 }
@@ -52,28 +52,39 @@ app.post('/register', (req, res) => {
   let emailInput = req.body.email;
   let passwordInput = req.body.password;
   let randomId = util.generateRandomString();
+  let exactEmail = "";
 
-  if(emailInput.length == 0  || passwordInput.length == 0){
-    res.redirect('/register');
+  for(let emails in users) {
+    if(emailInput === users[emails].email) {
+      exactEmail += users[emails].email;
+    }
+  }
+
+  if (emailInput.length == 0 || passwordInput.length == 0) {
+    res.status(400);
+    res.send("YOU SHALL NOT PASS");
+
+  } else if (emailInput === exactEmail) {
+    res.status(400);
+    res.send("EMAIL already exists");
+
   } else {
-  users[randomId] = {
-    id: randomId, 
-    email: emailInput, 
-    password: passwordInput
-  };
-
+    users[randomId] = {
+      id: randomId,
+      email: emailInput,
+      password: passwordInput
+    };
+  }
   res.cookie('user_id', randomId);
-  
-  console.log(users);
   res.redirect('/urls')
-}
 })
 
 
 
 app.get('/register', (req, res) => {
 
-  let templates = { users,
+  let templates = {
+    users,
   }
   res.render('user_register', templates);
 })
@@ -82,16 +93,18 @@ app.get('/register', (req, res) => {
 
 //Page with all URLS for short and long
 app.get('/urls', (req, res) => {
-  let template = {urlDatabase,
-  username: req.cookies["username"],
-}
+  let template = {
+    urlDatabase,
+    username: req.cookies["username"],
+  }
   res.render('url_index', template);
 })
 
 //Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
-  let template = {urlDatabase,
-  username: req.cookies["username"],
+  let template = {
+    urlDatabase,
+    username: req.cookies["username"],
   }
   res.render('url_new', template)
 })
@@ -119,7 +132,7 @@ app.get("/u/:shortURL", (req, res) => {
 //DELETE buttons
 app.post('/urls/:id/delete', (req, res) => {
   const objectKey = req.params.id
-  delete urlDatabase[objectKey];  
+  delete urlDatabase[objectKey];
   res.redirect('/urls')
 })
 
@@ -136,10 +149,11 @@ app.post('/urls/:id', (req, res) => {
 
 //Page shows URL individual
 app.get('/urls/:id', (req, res) => {
-  let template = {shortURL: req.params.id,
-  longURL : urlDatabase[req.params.id],
-  username: req.cookies["username"],
-};
+  let template = {
+    shortURL: req.params.id,
+    longURL: urlDatabase[req.params.id],
+    username: req.cookies["username"],
+  };
   res.render('url_show', template);
 });
 
