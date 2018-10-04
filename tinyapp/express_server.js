@@ -38,6 +38,13 @@ app.post('/register', (req, res) => {
   //TODO:
 })
 
+app.get('/register', (req, res) => {
+  let templates = {
+
+  }
+  res.render('user_register', templates);
+})
+
 //Start of the URLS
 
 //Page with all URLS for short and long
