@@ -1,16 +1,12 @@
-<form method="POST" action="/login">
-  <input name="username">
-  <input type="submit" value="Login">
-</form>
+
   <p>
-    
     <% if(username) { %>
-      Hello, <%=username%>
+      Hello, <%=users[username].email%>
     <form method="POST" action="/logout">
       <input type="submit" value="logout">
     </form>
     <% } else { %>
-    <p>Please log in login</p>
+      <a href = "/register"> Register</a>
+      <a href = "/login"> Login</a>
     <% } %>
-
   </p>
