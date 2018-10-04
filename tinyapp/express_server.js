@@ -37,7 +37,7 @@ const users = {
 
 app.post('/login', (req, res) => {
   let userInput = req.body.username;
-  res.cookie('username', userInput);
+  res.cookie("user_id", userInput);
   res.redirect('/urls');
 })
 
@@ -83,30 +83,32 @@ app.post('/register', (req, res) => {
 
 app.get('/register', (req, res) => {
 
-  let templates = {
+  let templateInfo = {
     users,
   }
-  res.render('user_register', templates);
+  res.render('user_register', templateInfo);
 })
 
 //Start of the URLS
 
 //Page with all URLS for short and long
 app.get('/urls', (req, res) => {
-  let template = {
+  let templateInfo = {
     urlDatabase,
     username: req.cookies["username"],
+    users,
   }
-  res.render('url_index', template);
+  res.render('url_index', templateInfo);
 })
 
 //Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
-  let template = {
+  let templateInfo = {
     urlDatabase,
     username: req.cookies["username"],
+    users,
   }
-  res.render('url_new', template)
+  res.render('url_new', templateInfo)
 })
 
 
@@ -115,6 +117,7 @@ app.post('/urls', (req, res) => {
   let templateInfo = {
     urlDatabase,
     username: req.cookies["username"],
+    users,
   }
   const randomKey = util.generateRandomString();
   const longURL = req.body.longURL;
@@ -149,12 +152,13 @@ app.post('/urls/:id', (req, res) => {
 
 //Page shows URL individual
 app.get('/urls/:id', (req, res) => {
-  let template = {
+  let templateInfo = {
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
     username: req.cookies["username"],
+    users,
   };
-  res.render('url_show', template);
+  res.render('url_show', templateInfo);
 });
 
 app.listen(PORT, () => {

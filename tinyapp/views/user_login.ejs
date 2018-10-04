@@ -1,0 +1,16 @@
+<form method="POST" action="/login">
+  <input name="<%=users %>">
+  <input type="submit" value="Login">
+</form>
+  <p>
+    
+    <% if(username) { %>
+      Hello, <%=username%>
+    <form method="POST" action="/logout">
+      <input type="submit" value="logout">
+    </form>
+    <% } else { %>
+    <p>Please log in login</p>
+    <% } %>
+
+  </p>
