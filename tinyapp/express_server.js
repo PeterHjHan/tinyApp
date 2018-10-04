@@ -19,6 +19,20 @@ const urlDatabase = {
 };
 
 
+
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+
 //username cookies
 
 app.post('/login', (req, res) => {
@@ -32,15 +46,34 @@ app.post('/logout', (req, res) => {
   res.redirect('/urls');
 });
 
-//user_register
+//USER_REGISTER
 
 app.post('/register', (req, res) => {
-  //TODO:
+  let emailInput = req.body.email;
+  let passwordInput = req.body.password;
+  let randomId = util.generateRandomString();
+
+  if(emailInput.length == 0  || passwordInput.length == 0){
+    res.redirect('/register');
+  } else {
+  users[randomId] = {
+    id: randomId, 
+    email: emailInput, 
+    password: passwordInput
+  };
+
+  res.cookie('user_id', randomId);
+  
+  console.log(users);
+  res.redirect('/urls')
+}
 })
 
-app.get('/register', (req, res) => {
-  let templates = {
 
+
+app.get('/register', (req, res) => {
+
+  let templates = { users,
   }
   res.render('user_register', templates);
 })
