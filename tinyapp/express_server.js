@@ -24,12 +24,14 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: "purple-monkey-dinosaur",
+    userID: "userRandomID"
   },
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: "dishwasher-funk"
+    password: "dishwasher-funk",
+    userID: "user2RandomID"
   }
 }
 
@@ -112,7 +114,8 @@ app.post('/register', (req, res) => {
     users[randomId] = {
       id: randomId,
       email: emailInput,
-      password: passwordInput
+      password: passwordInput,
+      userID: randomId,
     }
     res.cookie('user_id', randomId);
     res.redirect('/urls');
