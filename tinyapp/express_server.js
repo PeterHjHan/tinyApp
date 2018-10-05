@@ -33,27 +33,9 @@ const users = {
   }
 }
 
-
-
-
 //username cookies
 
-app.post('/login', (req, res) => {
-  let emailInput = req.body.email;
-  let passwordInput = req.body.password;
 
-  for (let correctUser in users) {
-    if (emailInput === users[correctUser].id) {
-      if (passwordInput === users[correctUser].password) {
-        res.send("successful login");
-      }
-
-    } else {
-      res.send("Email does not match");
-    }
-  }
-  res.send("test");
-});
 
 //Login PAGE
 app.get('/login', (req, res) => {
@@ -64,8 +46,22 @@ app.get('/login', (req, res) => {
   }
   res.cookie('user_id', templateInfo.username);
   res.render('user_login', templateInfo);
-})
+});
 
+app.post('/login', (req, res) => {
+  let emailInput = req.body.email;
+  let passwordInput = req.body.password;
+  let correctEmail = ""
+
+  for (let correctUser in users) {
+    if (emailInput === users[correctUser].email && 
+      passwordInput === users[correctUser].password) {
+        res.redirect("http://www.google.com")
+    } else {
+      res.send("bye");
+    }  
+  }
+});
 
 
 app.post('/logout', (req, res) => {
@@ -145,11 +141,6 @@ app.get('/urls/new', (req, res) => {
 
 //Page when Submit is clicked on /urls/new
 app.post('/urls', (req, res) => {
-  // let templateInfo = {
-  //   urlDatabase,
-  //   username: req.cookies["user_id"],
-  //   users,
-  // }
   const randomKey = util.generateRandomString();
   const longURL = req.body.longURL;
   urlDatabase[randomKey] = longURL;
