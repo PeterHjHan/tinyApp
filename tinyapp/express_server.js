@@ -232,3 +232,14 @@ app.get('/urls/:id', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Conneciton to ${PORT} is completed`);
 })
+
+
+function urlsForUser(id){
+  
+  for(let urls in urlDatabase) {
+    if(id === urlDatabase[urls].userID) {
+      return urlDatabase;
+    }
+    else res.send("bye bye");
+  }
+}
