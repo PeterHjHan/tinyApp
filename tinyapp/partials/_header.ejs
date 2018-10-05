@@ -2,7 +2,7 @@
   <p>
 
     <% if(Object.keys(users).includes(username)) { %>
-      Hello,
+      Hello, <%=users[username].email %>
     <form method="POST" action="/logout">
       <input type="submit" value="logout">
     </form>

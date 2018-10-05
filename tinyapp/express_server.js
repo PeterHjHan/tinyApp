@@ -163,11 +163,13 @@ app.get('/urls/new', (req, res) => {
 app.post('/urls/new', (req, res) => {
   const randomKey = util.generateRandomString();
   const longURL = req.body.longURL;
+  console.log(req.cookies.user_id);
 
   urlDatabase[randomKey] = {
     url: longURL,
-    userID: randomKey,
+    userID: req.cookies.user_id,
   }
+  console.log(urlDatabase);
   res.redirect('/urls');
 })
 
