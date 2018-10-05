@@ -8,18 +8,19 @@
   <% include ../partials/_header %>
 </head>
 <body>
-
-
   <ul>
     <% for(let urls in urlDatabase) { %>
+
+      <% if (urlDatabase[urls].userID === username || urlDatabase[urls].userID === "default") { %>
       <li> <%= urls %> - <a href = "<%= urlDatabase[urls] %>"><%= urlDatabase[urls] %></a> 
+
         <form method="POST" action="/urls/<%=urls %>/delete">
           <button>Delete</button>
         </form>
-        
-          <a href = "/urls/<%= urls %>"><button>Edit</button></a>
-
+        <a href = "/urls/<%= urls %>"><button>Edit</button></a>
       </li>
+      <% }; %>
+
     <% } %>
   </ul>
   <% if(username) { %>

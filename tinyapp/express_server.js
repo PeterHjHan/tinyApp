@@ -25,13 +25,13 @@ const users = {
     id: "userRandomID",
     email: "user@example.com",
     password: "purple-monkey-dinosaur",
-    userID: "userRandomID"
+    userID: "default"
   },
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
     password: "dishwasher-funk",
-    userID: "user2RandomID"
+    userID: "default"
   }
 }
 
@@ -175,8 +175,21 @@ app.get("/u/:shortURL", (req, res) => {
 //DELETE buttons
 app.post('/urls/:id/delete', (req, res) => {
   const objectKey = req.params.id
-  delete urlDatabase[objectKey];
-  res.redirect('/urls')
+  const userCookie = req.cookies["user_id"];
+  const linkId = users[userCookie].userID;
+
+  console.log(linkId);
+  console.log(userCookie);
+ 
+
+  if(userCookie === linkId){
+    delete urlDatabase[objectKey];
+    res.redirect('/urls')
+  } else if(linkId === 'default') {
+    res.send('Default URLs, unable to change');
+  } else {
+    res.send("Unable to delete as you are not the owner");
+  }
 })
 
 //Update with POST
