@@ -13,6 +13,9 @@ app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 
+
+
+
 const urlDatabase = {
   "b2xVn2": {
     url: "http://www.lighthouselabs.ca",
@@ -41,17 +44,18 @@ const users = {
 
 //username cookies
 
-
+app.get('/', (req, res) => {
+  res.render('index');
+})
 
 //Login PAGE
 app.get('/login', (req, res) => {
-  let templateInfo = {
-    urlDatabase,
-    username: req.cookies["user_id"],
-    users,
+
+  if (!req.cookies.user_id) {
+    res.render('user_login');
+  } else {
+    res.send('You are already logged in');
   }
-  res.cookie('user_id', templateInfo.username);
-  res.render('user_login', templateInfo);
 });
 
 app.post('/login', (req, res) => {
@@ -60,40 +64,37 @@ app.post('/login', (req, res) => {
   let validation;
   let correctCookie;
 
-  let templateInfo = {
-    urlDatabase,
-    username: req.cookies["user_id"],
-    users,
-  }
-
-  res.cookie('user_id', templateInfo.username);
-
   for (let correctUser in users) {
-    if (emailInput === users[correctUser].email && 
+    if (emailInput === users[correctUser].email &&
       passwordInput === users[correctUser].password) {
-        validation = true;
-        correctCookie = users[correctUser].id;
-    }  
+      validation = true;
+      correctCookie = users[correctUser].id;
+    }
   }
 
-  if(validation){
+  if (validation) {
     res.cookie('user_id', correctCookie)
     res.redirect('/urls');
-
   } else {
     res.send("Your email or password is incorrect");
   }
-
 });
-
 
 app.post('/logout', (req, res) => {
   res.clearCookie('user_id');
-  res.redirect('/urls');
+  res.redirect('/login');
 });
 
 //USER_REGISTER
 
+app.get('/register', (req, res) => {
+
+  if (!req.cookies.user_id) {
+    res.render('user_register');
+  } else {
+    res.redirect('/urls');
+  }
+})
 app.post('/register', (req, res) => {
   let emailInput = req.body.email;
   let passwordInput = req.body.password;
@@ -109,11 +110,9 @@ app.post('/register', (req, res) => {
   if (emailInput.length == 0 || passwordInput.length == 0) {
     res.status(400);
     res.send("YOU SHALL NOT PASS");
-
   } else if (emailInput === exactEmail) {
     res.status(400);
     res.send("EMAIL already exists");
-
   } else {
     users[randomId] = {
       id: randomId,
@@ -126,39 +125,35 @@ app.post('/register', (req, res) => {
   };
 });
 
-app.get('/register', (req, res) => {
-
-  let templateInfo = {
-    urlDatabase,
-    username: req.cookies["user_id"],
-    users,
-  }
-  res.render('user_register', templateInfo);
-})
-
 //Start of the URLS
 
 //Page with all URLS for short and long
 app.get('/urls', (req, res) => {
-  let templateInfo = {
-    urlDatabase,
-    username: req.cookies["user_id"],
-    users,
+
+  if (!req.cookies.user_id) {
+    res.redirect('/register');
+  } else {
+    let templateInfo = {
+      urlDatabase,
+      username: req.cookies.user_id,
+      users,
+    }
+    res.render('url_index', templateInfo);
   }
-  res.render('url_index', templateInfo);
 })
 
 //Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
+
+
+  if(!req.cookies.user_id){
+    res.redirect('/login')
+  } else {
   let templateInfo = {
     urlDatabase,
-    username: req.cookies["user_id"],
+    username: req.cookies.user_id,
     users,
   }
-  
-  if(templateInfo.username === undefined) {
-    res.redirect('/login');
-  } else {
     res.render('url_new', templateInfo);
   }
 })
@@ -172,7 +167,7 @@ app.post('/urls/new', (req, res) => {
   urlDatabase[randomKey] = {
     url: longURL,
     userID: randomKey,
-    }
+  }
   res.redirect('/urls');
 })
 
@@ -208,7 +203,7 @@ app.get('/urls/:id', (req, res) => {
   let templateInfo = {
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
-    username: req.cookies["user_id"],
+    username: req.cookies.user_id,
     users,
   };
   res.render('url_show', templateInfo);
