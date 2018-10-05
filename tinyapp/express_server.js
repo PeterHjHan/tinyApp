@@ -14,8 +14,14 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    url: "http://www.lighthouselabs.ca",
+    userID: "userRandomID"
+  },
+  "9sm5xK": {
+    url: "http://www.google.com",
+    userID: "user2RandomID",
+  },
 };
 
 
@@ -25,13 +31,11 @@ const users = {
     id: "userRandomID",
     email: "user@example.com",
     password: "purple-monkey-dinosaur",
-    userID: "default"
   },
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
     password: "dishwasher-funk",
-    userID: "default"
   }
 }
 
@@ -122,8 +126,6 @@ app.post('/register', (req, res) => {
   };
 });
 
-
-
 app.get('/register', (req, res) => {
 
   let templateInfo = {
@@ -143,9 +145,6 @@ app.get('/urls', (req, res) => {
     username: req.cookies["user_id"],
     users,
   }
-
-
-
   res.render('url_index', templateInfo);
 })
 
@@ -156,26 +155,32 @@ app.get('/urls/new', (req, res) => {
     username: req.cookies["user_id"],
     users,
   }
-  if(templateInfo.username) {
-    res.render('url_new', templateInfo);
-  } else {
+  
+  if(templateInfo.username === undefined) {
     res.redirect('/login');
+  } else {
+    res.render('url_new', templateInfo);
   }
 })
 
 
 //Page when Submit is clicked on /urls/new
-app.post('/urls', (req, res) => {
+app.post('/urls/new', (req, res) => {
   const randomKey = util.generateRandomString();
   const longURL = req.body.longURL;
-  urlDatabase[randomKey] = longURL;
+
+  urlDatabase[randomKey] = {
+    url: longURL,
+    userID: randomKey,
+    }
   res.redirect('/urls');
 })
+
 
 //redirecting the short link to the actual page
 app.get("/u/:shortURL", (req, res) => {
   let short = req.params.shortURL;
-  let longURL = urlDatabase[short];
+  let longURL = urlDatabase[short].url;
   res.redirect(longURL);
 });
 
