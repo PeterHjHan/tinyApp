@@ -51,16 +51,33 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
   let emailInput = req.body.email;
   let passwordInput = req.body.password;
-  let correctEmail = ""
+  let validation;
+  let correctCookie;
+
+  let templateInfo = {
+    urlDatabase,
+    username: req.cookies["user_id"],
+    users,
+  }
+
+  res.cookie('user_id', templateInfo.username);
 
   for (let correctUser in users) {
     if (emailInput === users[correctUser].email && 
       passwordInput === users[correctUser].password) {
-        res.redirect("http://www.google.com")
-    } else {
-      res.send("bye");
+        validation = true;
+        correctCookie = users[correctUser].id;
     }  
   }
+
+  if(validation){
+    res.cookie('user_id', correctCookie)
+    res.redirect('/urls');
+
+  } else {
+    res.send("Your email or password is incorrect");
+  }
+
 });
 
 
@@ -96,13 +113,11 @@ app.post('/register', (req, res) => {
       id: randomId,
       email: emailInput,
       password: passwordInput
-    };
-  }
-
-  console.log("user information", users);
-  res.cookie('user_id', randomId);
-  res.redirect('/urls')
-})
+    }
+    res.cookie('user_id', randomId);
+    res.redirect('/urls');
+  };
+});
 
 
 

@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <% include ../partials/_header %>
 </head>
 <body>
-    <% include ../partials/_header %>
+
 
   <ul>
     <% for(let urls in urlDatabase) { %>
@@ -21,5 +22,9 @@
       </li>
     <% } %>
   </ul>
+
+  <a href = "/urls/new">Add a new link</a>
+  <a href = "/login">login</a>
+  <a href = "/register">register</a>
 </body>
 </html>

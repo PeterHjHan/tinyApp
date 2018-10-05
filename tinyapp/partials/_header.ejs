@@ -1,12 +1,17 @@
 
   <p>
-    <% if(username) { %>
-      Hello, <%=users[username].email%>
+
+    <% if(Object.keys(users).includes(username)) { %>
+      Hello,
     <form method="POST" action="/logout">
       <input type="submit" value="logout">
     </form>
+
     <% } else { %>
       <a href = "/register"> Register</a>
       <a href = "/login"> Login</a>
     <% } %>
   </p>
+
+
+
