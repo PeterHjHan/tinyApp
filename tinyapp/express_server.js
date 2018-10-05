@@ -184,8 +184,17 @@ app.get("/u/:shortURL", (req, res) => {
 //DELETE buttons
 app.post('/urls/:id/delete', (req, res) => {
   const objectKey = req.params.id
-  delete urlDatabase[objectKey];
-  res.redirect('/urls')
+  const userCookie = req.cookies.user_id;
+  const urlDatabaseID = urlDatabase[objectKey].userID
+
+  if(userCookie === urlDatabaseID) {
+    delete urlDatabase[objectKey];
+    res.redirect('/urls')
+  } else {
+    res.send("you do not have access to this");
+  }
+ 
+
 })
 
 
@@ -193,7 +202,7 @@ app.post('/urls/:id/delete', (req, res) => {
 app.post('/urls/:id', (req, res) => {
   let shortURL = req.params.id;
   let newURL = req.body.longURL;
-  urlDatabase[shortURL] = newURL;
+  urlDatabase[shortURL].url = newURL;
   res.redirect('/urls');
 })
 
@@ -202,9 +211,27 @@ app.post('/urls/:id', (req, res) => {
 
 //Page shows URL individual
 app.get('/urls/:id', (req, res) => {
+  const objectKey = req.params.id
+  const userCookie = req.cookies.user_id;
+  const urlDatabaseID = urlDatabase[objectKey].userID
+
+  if(userCookie === urlDatabaseID) {
+    let templateInfo = {
+      shortURL: req.params.id,
+      longURL: urlDatabase[req.params.id].url,
+      username: req.cookies.user_id,
+      users,
+    };
+    res.render('url_show', templateInfo);
+  } else {
+    res.send("you do not have access to this");
+  }
+
+
+
   let templateInfo = {
     shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id],
+    longURL: urlDatabase[req.params.id].url,
     username: req.cookies.user_id,
     users,
   };
