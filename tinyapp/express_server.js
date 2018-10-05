@@ -45,6 +45,7 @@ const users = {
 //username cookies
 
 app.get('/', (req, res) => {
+  res.clearCookie('user_id');
   res.render('index');
 })
 
@@ -226,16 +227,6 @@ app.get('/urls/:id', (req, res) => {
   } else {
     res.send("you do not have access to this");
   }
-
-
-
-  let templateInfo = {
-    shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id].url,
-    username: req.cookies.user_id,
-    users,
-  };
-  res.render('url_show', templateInfo);
 });
 
 app.listen(PORT, () => {
