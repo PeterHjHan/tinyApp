@@ -143,6 +143,9 @@ app.get('/urls', (req, res) => {
     username: req.cookies["user_id"],
     users,
   }
+
+
+
   res.render('url_index', templateInfo);
 })
 
@@ -153,7 +156,11 @@ app.get('/urls/new', (req, res) => {
     username: req.cookies["user_id"],
     users,
   }
-  res.render('url_new', templateInfo)
+  if(templateInfo.username) {
+    res.render('url_new', templateInfo);
+  } else {
+    res.redirect('/login');
+  }
 })
 
 
@@ -175,22 +182,10 @@ app.get("/u/:shortURL", (req, res) => {
 //DELETE buttons
 app.post('/urls/:id/delete', (req, res) => {
   const objectKey = req.params.id
-  const userCookie = req.cookies["user_id"];
-  const linkId = users[userCookie].userID;
-
-  console.log(linkId);
-  console.log(userCookie);
- 
-
-  if(userCookie === linkId){
-    delete urlDatabase[objectKey];
-    res.redirect('/urls')
-  } else if(linkId === 'default') {
-    res.send('Default URLs, unable to change');
-  } else {
-    res.send("Unable to delete as you are not the owner");
-  }
+  delete urlDatabase[objectKey];
+  res.redirect('/urls')
 })
+
 
 //Update with POST
 app.post('/urls/:id', (req, res) => {
