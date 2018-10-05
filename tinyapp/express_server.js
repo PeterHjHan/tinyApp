@@ -17,14 +17,14 @@ app.set('view engine', 'ejs');
 
 
 const urlDatabase = {
-  "b2xVn2": {
-    url: "http://www.lighthouselabs.ca",
-    userID: "userRandomID"
-  },
-  "9sm5xK": {
-    url: "http://www.google.com",
-    userID: "user2RandomID",
-  },
+  // "b2xVn2": {
+  //   url: "http://www.lighthouselabs.ca",
+  //   userID: "userRandomID"
+  // },
+  // "9sm5xK": {
+  //   url: "http://www.google.com",
+  //   userID: "user2RandomID",
+  // },
 };
 
 
@@ -134,10 +134,13 @@ app.get('/urls', (req, res) => {
   if (!req.cookies.user_id) {
     res.redirect('/register');
   } else {
+    console.log(urlDatabase);
+
     let templateInfo = {
       urlDatabase,
       username: req.cookies.user_id,
       users,
+      userUrl: urlsForUser(req.cookies.user_id)
     }
     res.render('url_index', templateInfo);
   }
@@ -235,11 +238,24 @@ app.listen(PORT, () => {
 
 
 function urlsForUser(id){
-  
   for(let urls in urlDatabase) {
     if(id === urlDatabase[urls].userID) {
-      return urlDatabase;
+      console.log("succes");
+    } else {
+      console.log("wtf");
     }
-    else res.send("bye bye");
   }
 }
+
+// const users = {
+//   "userRandomID": {
+//     id: "userRandomID",
+//     email: "user@example.com",
+//     password: "purple-monkey-dinosaur",
+//   },
+//   "user2RandomID": {
+//     id: "user2RandomID",
+//     email: "user2@example.com",
+//     password: "dishwasher-funk",
+//   }
+// }
