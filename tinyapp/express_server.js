@@ -122,7 +122,6 @@ app.post('/register', (req, res) => {
       password: bcrypt.hashSync(passwordInput,5),
       userID: randomId,
     }
-    console.log(users[randomId].password);
     res.cookie('user_id', randomId);
     res.redirect('/urls');
   };
