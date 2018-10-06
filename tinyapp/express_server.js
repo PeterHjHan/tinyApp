@@ -17,14 +17,14 @@ app.set('view engine', 'ejs');
 
 
 const urlDatabase = {
-  // "b2xVn2": {
-  //   url: "http://www.lighthouselabs.ca",
-  //   userID: "userRandomID"
-  // },
-  // "9sm5xK": {
-  //   url: "http://www.google.com",
-  //   userID: "user2RandomID",
-  // },
+  "b2xVn2": {
+    url: "http://www.lighthouselabs.ca",
+    userID: "userRandomID"
+  },
+  "9sm5xK": {
+    url: "http://www.google.com",
+    userID: "user2RandomID",
+  },
 };
 
 
@@ -131,16 +131,16 @@ app.post('/register', (req, res) => {
 //Page with all URLS for short and long
 app.get('/urls', (req, res) => {
 
-  if (!req.cookies.user_id) {
-    res.redirect('/register');
+  let userId = req.cookies.user_id
+  //valid username, invalid cookies 
+  if (!userId) {
+    res.send("Please log in first to display the URLS, visit /register");
   } else {
-    console.log(urlDatabase);
-
+    
     let templateInfo = {
-      urlDatabase,
-      username: req.cookies.user_id,
+      urlDatabase: urlsForUser(userId),
+      username: userId,
       users,
-      userUrl: urlsForUser(req.cookies.user_id)
     }
     res.render('url_index', templateInfo);
   }
@@ -150,14 +150,14 @@ app.get('/urls', (req, res) => {
 app.get('/urls/new', (req, res) => {
 
 
-  if(!req.cookies.user_id){
+  if (!req.cookies.user_id) {
     res.redirect('/login')
   } else {
-  let templateInfo = {
-    urlDatabase,
-    username: req.cookies.user_id,
-    users,
-  }
+    let templateInfo = {
+      urlDatabase,
+      username: req.cookies.user_id,
+      users,
+    }
     res.render('url_new', templateInfo);
   }
 })
@@ -191,13 +191,13 @@ app.post('/urls/:id/delete', (req, res) => {
   const userCookie = req.cookies.user_id;
   const urlDatabaseID = urlDatabase[objectKey].userID
 
-  if(userCookie === urlDatabaseID) {
+  if (userCookie === urlDatabaseID) {
     delete urlDatabase[objectKey];
     res.redirect('/urls')
   } else {
     res.send("you do not have access to this");
   }
- 
+
 
 })
 
@@ -219,7 +219,7 @@ app.get('/urls/:id', (req, res) => {
   const userCookie = req.cookies.user_id;
   const urlDatabaseID = urlDatabase[objectKey].userID
 
-  if(userCookie === urlDatabaseID) {
+  if (userCookie === urlDatabaseID) {
     let templateInfo = {
       shortURL: req.params.id,
       longURL: urlDatabase[req.params.id].url,
@@ -237,25 +237,14 @@ app.listen(PORT, () => {
 })
 
 
-function urlsForUser(id){
-  for(let urls in urlDatabase) {
-    if(id === urlDatabase[urls].userID) {
-      console.log("succes");
-    } else {
-      console.log("wtf");
+function urlsForUser(userId) {
+  let newUrlDatabase = {};
+
+  for (let urls in urlDatabase) {
+
+    if (userId === urlDatabase[urls].userID) {
+      newUrlDatabase[urls] = urlDatabase[urls];
     }
   }
+  return newUrlDatabase;
 }
-
-// const users = {
-//   "userRandomID": {
-//     id: "userRandomID",
-//     email: "user@example.com",
-//     password: "purple-monkey-dinosaur",
-//   },
-//   "user2RandomID": {
-//     id: "user2RandomID",
-//     email: "user2@example.com",
-//     password: "dishwasher-funk",
-//   }
-// }
