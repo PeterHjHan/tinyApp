@@ -3,14 +3,18 @@ const app = express();
 const PORT = 8080;
 const util = require('./lib/Utilities');
 const bcrypt = require('bcrypt');
+const cookieSession = require('cookie-session');
+
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1'],
+}))
 
 app.set('view engine', 'ejs');
 
