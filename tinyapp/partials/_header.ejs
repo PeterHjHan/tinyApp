@@ -1,12 +1,13 @@
 
   <p>
     <% if(!userCookie) { %>
-      Hello Guest, <a href= "/register">register</a> first to use the website
+      Hello Guest, <a href= "/register"><button>Register</button></a> first or <a href="/login"><button>Login</button></a>
+      
     
     <% } else { %>
-      Welcome <%=users[userCookie].email%>
+
     <form method="POST" action="/logout">
-      <input type="submit" value="logout">
+      <p>Welcome <%= users[userCookie].email %> <input type="submit" value="logout"></p>
     </form>
     <% }; %>
   </p>

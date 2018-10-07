@@ -40,8 +40,11 @@ const users = {
 };
 //================================== HOME PAGE
 app.get('/', (req, res) => {
-  req.session = null;
-  res.render('index');
+  if (!req.session.user_id) {
+    res.redirect('/login')
+  } else {
+    res.redirect('/urls');
+  }
 });
 
 //================================== Login PAGE
@@ -198,6 +201,7 @@ app.post('/urls/:id/delete', (req, res) => {
 
 
 //================================== EDIT Button to update URL
+
 app.post('/urls/:id', (req, res) => {
   let shortURL = req.params.id;
   let newURL = req.body.longURL;
