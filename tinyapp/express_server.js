@@ -131,16 +131,17 @@ app.post('/register', (req, res) => {
 
 //Page with all URLS for short and long
 app.get('/urls', (req, res) => {
-
-  let userId = req.cookies.user_id
+  console.log(users);
+  console.log(req.cookies.user_id)
+  let usersDatabaseUserID = req.cookies.user_id
   //valid username, invalid cookies 
-  if (!userId) {
+  if (!usersDatabaseUserID) {
     res.send("Please log in first to display the URLS, visit /register");
   } else {
     
     let templateInfo = {
-      urlDatabase: urlsForUser(userId),
-      username: userId,
+      urlDatabase: urlsForUser(usersDatabaseUserID),
+      username: usersDatabaseUserID,
       users,
     }
     res.render('url_index', templateInfo);
