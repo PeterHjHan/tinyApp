@@ -1,16 +1,14 @@
 
   <p>
-
-    <% if(Object.keys(users).includes(username)) { %>
-      Hello, <%=users[username].email %>
+    <% if(!userCookie) { %>
+      Hello Guest, <a href= "/register">register</a> first to use the website
+    
+    <% } else { %>
+      Welcome <%=users[userCookie].email%>
     <form method="POST" action="/logout">
       <input type="submit" value="logout">
     </form>
-
-    <% } else { %>
-      <a href = "/register"> Register</a>
-      <a href = "/login"> Login</a>
-    <% } %>
+    <% }; %>
   </p>
 
 

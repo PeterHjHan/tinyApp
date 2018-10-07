@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Registration</title> 
+  <% include ../partials/_header %>   
 </head>
 <body>
 
   <h1>Welcome to the Registration Page</h1>
+    <p>If you already have an Id, <a href="/login">Login</a></p>
     <form method="POST" action="/register">
       <p>
         <label for="id">Email</label>
@@ -18,9 +20,8 @@
         <label for="name">Password</label>
         <input id="name" type="password" name="password">
       </p>
-    
-      <button type="submit">Login</button>
+      <button type="submit">Submit</button>
     </form>
-
+    </p>
 </body>
 </html>
