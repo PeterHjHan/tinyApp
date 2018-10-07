@@ -3,7 +3,7 @@ const app = express();
 const PORT = 8080;
 const util = require('./lib/Utilities');
 const bcrypt = require('bcrypt');
-const cookieSession = require('cookie-session');
+const cookieSession = require('cookie-session')
 
 
 const bodyParser = require("body-parser");
@@ -14,7 +14,13 @@ app.use(bodyParser.urlencoded({
 app.use(cookieSession({
   name: 'session',
   keys: ['key1'],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 
@@ -39,25 +45,27 @@ const users = {
     id: "userRandomID",
     email: "user@example.com",
     password: "purple-monkey-dinosaur",
+    userID: "userRandomID",
   },
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
     password: "dishwasher-funk",
+    userID: "user2RandomID",
   }
 }
 
 //username cookies
 
 app.get('/', (req, res) => {
-  res.clearCookie('user_id');
+  req.session = null;
   res.render('index');
 })
 
 //Login PAGE
 app.get('/login', (req, res) => {
 
-  if (!req.cookies.user_id) {
+  if (!req.session.user_id) {
     res.render('user_login');
   } else {
     res.send('You are already logged in');
@@ -87,7 +95,7 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-  res.clearCookie('user_id');
+  req.session = null;
   res.redirect('/login');
 });
 
@@ -95,7 +103,7 @@ app.post('/logout', (req, res) => {
 
 app.get('/register', (req, res) => {
 
-  if (!req.cookies.user_id) {
+  if (!req.session.user_id) {
     res.render('user_register');
   } else {
     res.redirect('/urls');
