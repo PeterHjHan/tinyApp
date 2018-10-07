@@ -136,7 +136,7 @@ app.post('/register', (req, res) => {
 //================================== Page with all shortURL and URLS
 app.get('/urls', (req, res) => {
   if (!req.session.user_id) {
-    res.send("Please log in first to display the URLS, visit /register");
+    res.render('url_error');
   } else {
     
     let templateInfo = {
@@ -150,7 +150,6 @@ app.get('/urls', (req, res) => {
 
 //================================== Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
-
 
   if (!req.session.user_id) {
     res.redirect('/login')
