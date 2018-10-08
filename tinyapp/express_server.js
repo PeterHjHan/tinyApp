@@ -81,6 +81,7 @@ app.post('/login', (req, res) => {
     res.send("Your email or password is incorrect");
   }
 });
+//================================== USER Logout
 
 app.post('/logout', (req, res) => {
   req.session = null;
@@ -136,7 +137,7 @@ app.post('/register', (req, res) => {
 //================================== Page with all shortURL and URLS
 app.get('/urls', (req, res) => {
   if (!req.session.user_id) {
-    res.render('url_error');
+    res.render('error_login');
   } else {
     
     let templateInfo = {
@@ -179,9 +180,20 @@ app.post('/urls/new', (req, res) => {
 
 //================================== REDIRECT the shortURL to appropriate URL
 app.get("/u/:shortURL", (req, res) => {
-  let short = req.params.shortURL;
-  let longURL = urlDatabase[short].url;
-  res.redirect(longURL);
+  let shortURL = req.params.shortURL;
+  let correctURL;
+  for(let urlKey in urlDatabase) {
+    if(shortURL === urlKey) {
+      correctURL = shortURL;
+    }
+  }
+  if(correctURL === undefined) {
+    res.send(`The ${shortURL} does not exist, check your spelling`);
+  } else {
+    let longURL = urlDatabase[correctURL].url;
+    res.redirect(longURL);
+  }
+
 });
 
 //================================== DELETE buttons
