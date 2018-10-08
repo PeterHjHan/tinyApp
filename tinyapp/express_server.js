@@ -40,7 +40,8 @@ const users = {
 };
 //================================== HOME PAGE
 app.get('/', (req, res) => {
-  if (!req.session.user_id) {
+  let userExists = doesTheUserExist(req.session.user_id)
+  if (!userExists) {
     res.redirect('/login')
   } else {
     res.redirect('/urls');
@@ -92,11 +93,14 @@ app.post('/logout', (req, res) => {
 
 app.get('/register', (req, res) => {
 
-  if (!req.session.user_id) {
+  let userExists = doesTheUserExist(req.session.user_id);
+
+  if (!userExists) {
     let templateInfo = {
       users,
       urlDatabase,
       userCookie: req.session.user_id,
+      userExists,
     }
     res.render('user_register', templateInfo);
   } else {
@@ -137,7 +141,8 @@ app.post('/register', (req, res) => {
  
 //================================== Page with all shortURL and URLS
 app.get('/urls', (req, res) => {
-  if (!req.session.user_id) {
+  let userExists = doesTheUserExist(req.session.user_id)
+  if (!userExists) {
     res.render('error_login');
   } else {
     
@@ -145,6 +150,7 @@ app.get('/urls', (req, res) => {
       users,
       userCookie: req.session.user_id,
       urlDatabase: urlsForUser(req.session.user_id),
+      userExists,
     }
     res.render('url_index', templateInfo);
   }
@@ -152,14 +158,15 @@ app.get('/urls', (req, res) => {
 
 //================================== Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
-
-  if (!req.session.user_id) {
+  let userExists = doesTheUserExist(req.session.user_id)
+  if (!userExists) {
     res.redirect('/login')
   } else {
     let templateInfo = {
       users,
       urlDatabase,
       userCookie: req.session.user_id,
+      userExists,
     }
     res.render('url_new', templateInfo);
   }
@@ -260,7 +267,7 @@ function urlsForUser(userId) {
 function doesTheUserExist(user) {
   let existingUser;
   for (let element in users) {
-    if(user === userDatabase[element].userID) {
+    if(user === users[element].userID) {
        return existingUser = user;
     }
   } 
