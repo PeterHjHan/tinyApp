@@ -132,7 +132,7 @@ app.post('/register', (req, res) => {
     users[randomId] = {
       id: randomId,
       email: emailInput,
-      password: bcrypt.hashSync(passwordInput,5),
+      password: bcrypt.hashSync(passwordInput, 5),
       userID: randomId,
     };
     req.session.user_id;
@@ -184,12 +184,12 @@ app.post('/urls/new', (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
   let correctURL;
-  for(let urlKey in urlDatabase) {
-    if(shortURL === urlKey) {
+  for (let urlKey in urlDatabase) {
+    if (shortURL === urlKey) {
       correctURL = shortURL;
     }
   }
-  if(correctURL === undefined) {
+  if (correctURL === undefined) {
     res.send(`The ${shortURL} does not exist, check your spelling`);
   } else {
     let longURL = urlDatabase[correctURL].url;
@@ -228,7 +228,7 @@ app.get('/urls/:id', (req, res) => {
   const userCookie = req.session.user_id;
   const urlDatabaseID = urlDatabase[objectKey].userID;
   let userExists = doesTheUserExist(req.session.user_id);
-  
+
   if (userCookie === urlDatabaseID) {
     let templateInfo = {
       users,
@@ -261,8 +261,8 @@ function urlsForUser(userId) {
 function doesTheUserExist(user) {
   let existingUser;
   for (let element in users) {
-    if(user === users[element].userID) {
-       return existingUser = user;
+    if (user === users[element].userID) {
+      return existingUser = user;
     }
   }
   return existingUser;
