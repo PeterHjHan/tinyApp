@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const util = require('./lib/Utilities');
 const bcrypt = require('bcrypt');
-const cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session');
 const PORT = 8080;
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
 }));
 
 app.use(cookieSession({
@@ -50,12 +50,14 @@ app.get('/', (req, res) => {
 
 //================================== Login PAGE
 app.get('/login', (req, res) => {
+  let userExists = doesTheUserExist(req.session.user_id)
 
-  if (!req.session.user_id) {
+  if (!userExists) {
     let templateInfo = {
       users,
       urlDatabase,
       userCookie: req.session.user_id,
+      userExists,
     }
     res.render('user_login', templateInfo);
   } else {
@@ -138,14 +140,12 @@ app.post('/register', (req, res) => {
     res.redirect('/urls');
   };
 });
- 
 //================================== Page with all shortURL and URLS
 app.get('/urls', (req, res) => {
   let userExists = doesTheUserExist(req.session.user_id)
   if (!userExists) {
     res.render('error_login');
   } else {
-    
     let templateInfo = {
       users,
       userCookie: req.session.user_id,
@@ -154,8 +154,7 @@ app.get('/urls', (req, res) => {
     }
     res.render('url_index', templateInfo);
   }
-})
-
+});
 //================================== Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
   let userExists = doesTheUserExist(req.session.user_id)
@@ -170,9 +169,7 @@ app.get('/urls/new', (req, res) => {
     }
     res.render('url_new', templateInfo);
   }
-})  
-
-
+});
 //================================== SUBMIT button in /urls/new
 app.post('/urls/new', (req, res) => {
   const randomKey = util.generateRandomString();
@@ -183,9 +180,7 @@ app.post('/urls/new', (req, res) => {
     userID: req.session.user_id,
   }
   res.redirect('/urls');
-})
-
-
+});
 //================================== REDIRECT the shortURL to appropriate URL
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL;
@@ -255,14 +250,14 @@ app.listen(PORT, () => {
 
 function urlsForUser(userId) {
   let newUrlDatabase = {};
-  
+
   for (let urls in urlDatabase) {
     if (userId === urlDatabase[urls].userID) {
       newUrlDatabase[urls] = urlDatabase[urls];
     }
   }
   return newUrlDatabase;
-}
+};
 
 function doesTheUserExist(user) {
   let existingUser;
@@ -270,6 +265,6 @@ function doesTheUserExist(user) {
     if(user === users[element].userID) {
        return existingUser = user;
     }
-  } 
+  }
   return existingUser;
-}
+};
