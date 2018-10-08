@@ -4,11 +4,11 @@ Tinyapp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["User registration page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png = 400x200)
+!["User registration page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png | width = 400)
 
-!["Main URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png = 400x200)
+!["Main URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png | width = 400)
 
-!["Edit URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_edit.png = 400x200)
+!["Edit URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_edit.png | width = 400)
 
 
 ## Dependencies
