@@ -6,8 +6,10 @@ Tinyapp is a full stack web application built with Node and Express that allows 
 
 
 <img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png" alt = "User Registration page" width = "500" height = "200"/>
+---
 
 <img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png" alt = "Main URL page" width = "500" height = "400"/>
+---
 
 <img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_edit.png" alt = "Edit URL page" width = "600" height = "200"/>
 
