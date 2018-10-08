@@ -4,7 +4,9 @@ Tinyapp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["User registration page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png | width =400)
+
+<img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png" alt = "User Registration page" width = "400" height = "200"</image>
+!["User registration page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png)
 
 !["Main URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png | width =400)
 
