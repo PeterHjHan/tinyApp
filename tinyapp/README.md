@@ -4,12 +4,16 @@ Tinyapp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["User registration page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png)
 
-!["Main URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png)
+<img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png" alt = "User Registration page" width = "500" height = "200"/>
 
-!["Edit URL page"](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_edit.png)
+<hr>
 
+<img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png" alt = "Main URL page" width = "500" height = "400"/>
+
+<hr>
+
+<img src = "https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_edit.png" alt = "Edit URL page" width = "600" height = "200"/>
 
 ## Dependencies
 
@@ -32,7 +36,5 @@ cookie-session | 2.0.0-beta.3
 5. Open a browser and type `http://localhost:[PORT NUMBER]/`
 
   * Example, with default port, http:localhost:8080/
-=======
-  * Example, with default port, `http://localhost:8080/`
 
 
