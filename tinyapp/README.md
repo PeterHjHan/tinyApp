@@ -4,9 +4,9 @@ Tinyapp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-![User registration page](#)
-![Main URL page](#)
-![Edit URL page](#)
+![User registration page](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/user-register.png)
+![Main URL page](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_main.png)
+![Edit URL page](https://github.com/PeterHjHan/w2d3/blob/master/tinyapp/docs/url_edit.png)
 
 
 ## Dependencies
@@ -28,9 +28,9 @@ cookie-session | 2.0.0-beta.3
   * If the number needs to be changed, open express_server.js and change the value of the PORT in line 6.
 4. Run the program in the terminal by typing `node express_server.js` command
 5. Open a browser and type `http://localhost:[PORT NUMBER]/`
-<<<<<<< HEAD
+
   * Example, with default port, http:localhost:8080/
 =======
   * Example, with default port, `http://localhost:8080/`
->>>>>>> 213e1f3... updating README with screenshots
+
 
