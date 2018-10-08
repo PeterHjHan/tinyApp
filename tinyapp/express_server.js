@@ -130,6 +130,7 @@ app.post('/register', (req, res) => {
       userID: randomId,
     };
     req.session.user_id;
+    console.log(users);
     res.redirect('/urls');
   };
 });
