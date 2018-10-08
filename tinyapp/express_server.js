@@ -40,9 +40,9 @@ const users = {
 };
 //================================== HOME PAGE
 app.get('/', (req, res) => {
-  let userExists = doesTheUserExist(req.session.user_id)
+  let userExists = doesTheUserExist(req.session.user_id);
   if (!userExists) {
-    res.redirect('/login')
+    res.redirect('/login');
   } else {
     res.redirect('/urls');
   }
@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
 
 //================================== Login PAGE
 app.get('/login', (req, res) => {
-  let userExists = doesTheUserExist(req.session.user_id)
+  let userExists = doesTheUserExist(req.session.user_id);
 
   if (!userExists) {
     let templateInfo = {
@@ -136,13 +136,12 @@ app.post('/register', (req, res) => {
       userID: randomId,
     };
     req.session.user_id;
-    console.log(users);
     res.redirect('/urls');
   };
 });
 //================================== Page with all shortURL and URLS
 app.get('/urls', (req, res) => {
-  let userExists = doesTheUserExist(req.session.user_id)
+  let userExists = doesTheUserExist(req.session.user_id);
   if (!userExists) {
     res.render('error_login');
   } else {
@@ -157,9 +156,9 @@ app.get('/urls', (req, res) => {
 });
 //================================== Page for Adding new URLS
 app.get('/urls/new', (req, res) => {
-  let userExists = doesTheUserExist(req.session.user_id)
+  let userExists = doesTheUserExist(req.session.user_id);
   if (!userExists) {
-    res.redirect('/login')
+    res.redirect('/login');
   } else {
     let templateInfo = {
       users,
@@ -201,13 +200,13 @@ app.get("/u/:shortURL", (req, res) => {
 
 //================================== DELETE buttons
 app.post('/urls/:id/delete', (req, res) => {
-  const objectKey = req.params.id
+  const objectKey = req.params.id;
   const userCookie = req.session.user_id;
-  const urlDatabaseID = urlDatabase[objectKey].userID
+  const urlDatabaseID = urlDatabase[objectKey].userID;
 
   if (userCookie === urlDatabaseID) {
     delete urlDatabase[objectKey];
-    res.redirect('/urls')
+    res.redirect('/urls');
   } else {
     res.send("you do not have access to this");
   }
@@ -227,20 +226,20 @@ app.post('/urls/:id', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   const objectKey = req.params.id
   const userCookie = req.session.user_id;
-  const urlDatabaseID = urlDatabase[objectKey].userID
-  console.log(userCookie);
-  console.log(urlDatabaseID);
-
+  const urlDatabaseID = urlDatabase[objectKey].userID;
+  let userExists = doesTheUserExist(req.session.user_id);
+  
   if (userCookie === urlDatabaseID) {
     let templateInfo = {
       users,
       shortURL: req.params.id,
       longURL: urlDatabase[req.params.id].url,
       userCookie: req.session.user_id,
+      userExists,
     };
     res.render('url_show', templateInfo);
   } else {
-    res.send("you do not have access to this");
+    res.send("You do not have access to this");
   }
 });
 
