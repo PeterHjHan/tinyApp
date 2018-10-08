@@ -16,6 +16,30 @@ app.use(cookieSession({
 }))
 app.set('view engine', 'ejs');
 
+// 
+
+function urlsForUser(userId) {
+  let newUrlDatabase = {};
+
+  for (let urls in urlDatabase) {
+    if (userId === urlDatabase[urls].userID) {
+      newUrlDatabase[urls] = urlDatabase[urls];
+    }
+  }
+  return newUrlDatabase;
+};
+
+function doesTheUserExist(user) {
+  let existingUser;
+  for (let element in users) {
+    if (user === users[element].userID) {
+      return existingUser = user;
+    }
+  }
+  return existingUser;
+};
+
+
 const urlDatabase = {
   "b2xVn2": {
     url: "http://www.lighthouselabs.ca",
@@ -243,27 +267,9 @@ app.get('/urls/:id', (req, res) => {
   }
 });
 
+
+
 app.listen(PORT, () => {
   console.log(`Conneciton to ${PORT} is completed`);
 })
 
-function urlsForUser(userId) {
-  let newUrlDatabase = {};
-
-  for (let urls in urlDatabase) {
-    if (userId === urlDatabase[urls].userID) {
-      newUrlDatabase[urls] = urlDatabase[urls];
-    }
-  }
-  return newUrlDatabase;
-};
-
-function doesTheUserExist(user) {
-  let existingUser;
-  for (let element in users) {
-    if (user === users[element].userID) {
-      return existingUser = user;
-    }
-  }
-  return existingUser;
-};
