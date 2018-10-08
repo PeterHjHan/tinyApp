@@ -39,6 +39,16 @@ function doesTheUserExist(user) {
   return existingUser;
 };
 
+function doesTheUrlExist(url) {
+  let existingUrl
+  for(let element in urlDatabase){
+    if(url === element) {
+      return existingUrl = url;
+    }
+  }
+  return existingUrl;
+}
+
 
 const urlDatabase = {
   "b2xVn2": {
@@ -192,6 +202,8 @@ app.get('/urls/new', (req, res) => {
     }
     res.render('url_new', templateInfo);
   }
+
+
 });
 //================================== SUBMIT button in /urls/new
 app.post('/urls/new', (req, res) => {
@@ -245,6 +257,12 @@ app.post('/urls/:id', (req, res) => {
   urlDatabase[shortURL].url = newURL;
   res.redirect('/urls');
 })
+
+app.get('/urls/:id', (req,res) => {
+  let shortURL = req.params.id;
+  if(shortURL )
+
+});
 
 //================================== Page shows URL individual
 app.get('/urls/:id', (req, res) => {
