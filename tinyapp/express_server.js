@@ -258,17 +258,11 @@ app.post('/urls/:id', (req, res) => {
   res.redirect('/urls');
 })
 
-app.get('/urls/:id', (req,res) => {
-  let shortURL = req.params.id;
-  if(shortURL )
-
-});
-
 //================================== Page shows URL individual
 app.get('/urls/:id', (req, res) => {
-  const objectKey = req.params.id
+  const shortURL = req.params.id
   const userCookie = req.session.user_id;
-  const urlDatabaseID = urlDatabase[objectKey].userID;
+  const urlDatabaseID = urlDatabase[shortURL].userID;
   let userExists = doesTheUserExist(req.session.user_id);
 
   if (userCookie === urlDatabaseID) {
