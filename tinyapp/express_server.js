@@ -226,6 +226,8 @@ app.get('/urls/:id', (req, res) => {
   const objectKey = req.params.id
   const userCookie = req.session.user_id;
   const urlDatabaseID = urlDatabase[objectKey].userID
+  console.log(userCookie);
+  console.log(urlDatabaseID);
 
   if (userCookie === urlDatabaseID) {
     let templateInfo = {
@@ -253,4 +255,14 @@ function urlsForUser(userId) {
     }
   }
   return newUrlDatabase;
+}
+
+function doesTheUserExist(user) {
+  let existingUser;
+  for (let element in users) {
+    if(user === userDatabase[element].userID) {
+       return existingUser = user;
+    }
+  } 
+  return existingUser;
 }
