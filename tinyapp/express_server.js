@@ -58,7 +58,7 @@ app.get('/login', (req, res) => {
     }
     res.render('user_login', templateInfo);
   } else {
-    res.send('You are already logged in');
+    res.redirect('/urls');
   }
 });
 
