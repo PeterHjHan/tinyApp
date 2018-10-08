@@ -22,6 +22,6 @@ cookie-session | 2.0.0-beta.3
 3. The Port number is set to a default value of 8080
   * If the number needs to be changed, open express_server.js and change the value of the PORT in line 6.
 4. Run the program in the terminal by typing `node express_server.js` command
-5. Open a browser and type http://localhost:[PORT NUMBER]/
+5. Open a browser and type `http://localhost:[PORT NUMBER]/`
   * Example, with default port, http:localhost:8080/
 
