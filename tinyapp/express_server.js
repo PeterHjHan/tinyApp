@@ -30,7 +30,7 @@ function urlsForUser(userId) {
 };
 
 function doesTheUserExist(user) {
-  let existingUser;
+  let existingUser = "";
   for (let element in users) {
     if (user === users[element].userID) {
       return existingUser = user;
@@ -40,7 +40,7 @@ function doesTheUserExist(user) {
 };
 
 function doesTheUrlExist(url) {
-  let existingUrl
+  let existingUrl = "";
   for(let element in urlDatabase){
     if(url === element) {
       return existingUrl = url;
