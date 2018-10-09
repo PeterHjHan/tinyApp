@@ -262,8 +262,7 @@ app.post('/urls/:id', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   const shortURL = req.params.id
   const userCookie = req.session.user_id;
-  // const urlDatabaseID = urlDatabase[shortURL].userID;   //TODO: THIS IS THE PROBLEM; 
-  let userExists = doesTheUserExist(req.session.user_id);
+  const userExists = doesTheUserExist(req.session.user_id);
   const urlExists = doesTheUrlExist(shortURL);
 
   if (urlExists && userCookie === urlDatabase[shortURL].userID) {
